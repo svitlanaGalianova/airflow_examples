@@ -28,6 +28,10 @@ def dynamic_tasks():
     def combine_data(results):
         log.info(','.join(results))
 
+    def hello(item):
+        logging.info(f'Hello {item}')
+        return f'Hello {item}'
+
     with TaskGroup('dynamic_tasks_group', tooltip='dynamic_tasks_group') as dynamic_tasks_group:
         items = ['One', 'Two', 'Three']
 
@@ -36,11 +40,7 @@ def dynamic_tasks():
         for i in items:
             @task(task_id=f'log_message_{i}')
             def log_message(item):
-                try:
-                    logging.info(f'Hello {item}')
-                    return f'Hello {item}'
-                except Exception as ex:
-                    raise ex
+                hello(item)
 
             results.append(log_message(i))
 
